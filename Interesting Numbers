@@ -1,0 +1,57 @@
+#include <iostream>
+#include<stdio.h>
+#include<stack>
+#include<bits/stdc++.h>
+#define mod 1000000007
+using namespace std;
+long long int gcd(long long int a,long long int b)
+{   long long int tmp;
+	  while((b%a)!=0)
+	  {  tmp=b%a;
+	     b=a;
+	     a=tmp;
+	  }
+	  return a;
+}
+int main() {
+      int a[]={2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,51};
+      int b[16];
+      int t;
+      cin>>t;
+      while(t--)
+      { 
+       long long int num,sum=0;
+       scanf("%lli",&num);
+       long long int num2=num;
+       vector <int> v;
+       int n,size=0;
+       cin>>n;
+       for(int i=0;i<16;i++)
+       {  if(a[i]<=n)
+           {  v.push_back(a[i]);
+		   }
+		   else
+		      break;
+	   }
+       int i,j,c=0;
+       for(i=1;i<(1<<v.size());i++)
+        { sum=1;
+          c=0;
+          for(j=0;j<v.size();j++)
+           { if(i&(1<<j)) 
+               {   sum*=v[j];
+               	     c++;
+			   }
+           }
+            if(sum!=1)
+			 { if(c%2==1)
+			 	num2-=num/sum;
+			 	else
+			 	 num2+=num/sum;
+			  } 
+          
+          }
+        printf("%lli \n",num2);
+       }
+	return 0;
+}
