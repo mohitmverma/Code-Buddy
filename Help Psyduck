@@ -1,0 +1,72 @@
+#include<limits.h>
+#include<bits/stdc++.h>
+#define ll long long int 
+using namespace std;
+
+bool a[1002][1002],v[1002][1002];
+int d[1002][1002];
+pair<int,int> p,p1;
+queue <pair<int,int>> q;
+int main()
+{
+    int t,n,m;
+    cin>>t;
+    while(t--)
+    {
+        cin>>n>>m;
+        int x1,x2,y1,y2,x,y,qr;
+        cin>>x1>>y1>>x2>>y2;
+        
+        for(int i=1;i<=n;i++)
+         {for(int j=1;j<=m;j++)
+          { 
+              a[i][j]=false;
+              v[i][j]=false;
+              d[i][j]=INT_MAX;
+          }
+        }
+       cin>>qr;
+       while(qr--)
+       {
+           cin>>x>>y;
+           a[x][y]=true;
+       }
+       
+       p1=make_pair(x1,y1);
+       q.push(p1);
+       d[x1][y1]=0;
+       
+       int dx[]={0,0,1,-1};
+       int dy[]={1,-1,0,0};
+       while(!q.empty())
+       {
+           p=q.front();
+           q.pop();
+           
+           
+           for(int i=0;i<4;i++)
+           {
+               x=p.first+dx[i];
+               y=p.second+dy[i];
+               
+               if((x>0)&&(x<=n)&&(y>0)&&(y<=m)&&(!a[x][y])&&(!v[x][y]))
+               {   
+                    v[x][y]=true;
+                  // a[x][y]=true;
+                   q.push(make_pair(x,y));
+                   d[x][y]=d[p.first][p.second]+1;
+               }
+           }
+           
+           
+       }
+
+       
+       if(d[x2][y2]==INT_MAX)
+         cout<<-1<<endl;
+         else
+          cout<<d[x2][y2]<<endl;
+       
+    }
+    return 0;
+}
