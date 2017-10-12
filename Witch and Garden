@@ -1,0 +1,88 @@
+#include <iostream>
+#include <bits/stdc++.h>
+
+using namespace std;
+int n,m;
+int a[1002][1002],pathlength[1002][1002],status[1002][1002];
+pair < int, int > p1,p;
+priority_queue < pair <int, pair <int, int> >, vector < pair <int, pair <int, int> > >, greater < pair <int, pair <int, int> > > > pq;
+
+int dij(int h)
+{   
+    int x,y,res,curx,cury;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+          pathlength[i][j]=INT_MAX;
+          status[i][j]=0;
+        }
+    }
+    
+    int r=abs(h-a[0][0]);
+    pathlength[0][0]=r;
+    p=make_pair(0,0);
+    
+    pq.push(make_pair(r,p));
+    
+     int dx[]={0,0,1,-1,-1,1,-1,1};
+      int dy[]={1,-1,0,0,-1,1,1,-1};
+
+    while(!pq.empty())
+    {    
+        curx=pq.top().second.first;
+        cury=pq.top().second.second;
+        
+        pq.pop();
+        
+        if(status[curx][cury]==1)
+          continue;
+          //return pathlength[n-1][m-1];
+        
+           status[curx][cury]=1;
+    
+                  for(int k=0;k<8;k++)
+                  {   
+                      x=dx[k]+curx;
+                      y=dy[k]+cury;
+                      
+                      if(((x>=0)&&(x<n)&&(y>=0)&&(y<m))&&(status[x][y]==0))
+                      {  
+                         res=abs(h-a[x][y]); 
+                         if(pathlength[curx][cury]+res<pathlength[x][y])
+                          { 
+                             pathlength[x][y]=pathlength[curx][cury]+res;
+                             p1=make_pair(x,y);
+                             pq.push(make_pair(pathlength[x][y],p1));
+                          }
+                          
+                      }
+                  }
+        
+    }
+    return pathlength[n-1][m-1];
+    
+}
+int main()
+{
+    int t,res=INT_MAX;
+    cin>>t;
+    while(t--)
+    {
+        cin>>n>>m;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+             cin>>a[i][j];
+        }
+        
+        res=INT_MAX;
+        for(int i=1;i<=100;i++)
+         {
+             res=min(res,dij(i));
+         }
+        cout<<res<<endl;
+        
+    }
+    return 0;
+}
